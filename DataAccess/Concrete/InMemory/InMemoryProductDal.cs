@@ -3,6 +3,7 @@ using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,11 +20,11 @@ namespace DataAccess.Concrete.InMemory
             //we can add many products in this list..!
             //we can imagine that  this information is coming from Oracle,Sql Server,Postgres,MongoDb or etc...!
             _products = new List<Product> { 
-                new Product {ProductId=1,CategoryId=1,ProductName="Glass",UnitPrice=15,UnitInStock=15},//101 address in heap
-                new Product {ProductId=2,CategoryId=1,ProductName="Camera",UnitPrice=500,UnitInStock=3},//102
-                new Product {ProductId=3,CategoryId=2,ProductName="Phone",UnitPrice=1500,UnitInStock=2},//103
-                new Product {ProductId=4,CategoryId=2,ProductName="Keyboard",UnitPrice=150,UnitInStock=65 },
-                new Product {ProductId=5,CategoryId=2,ProductName="Mouse",UnitPrice=85,UnitInStock=1},
+                new Product {ProductId=1,CategoryId=1,ProductName="Glass",UnitPrice=15,UnitsInStock=15},//101 address in heap
+                new Product {ProductId=2,CategoryId=1,ProductName="Camera",UnitPrice=500,UnitsInStock=3},//102
+                new Product {ProductId=3,CategoryId=2,ProductName="Phone",UnitPrice=1500,UnitsInStock=2},//103
+                new Product {ProductId=4,CategoryId=2,ProductName="Keyboard",UnitPrice=150,UnitsInStock=65 },
+                new Product {ProductId=5,CategoryId=2,ProductName="Mouse",UnitPrice=85,UnitsInStock=1},
                 //we can inside Ctr+Space then we can reach the properties...!
 
 
@@ -51,9 +52,19 @@ namespace DataAccess.Concrete.InMemory
 
         }
 
+        public Product Get(Expression<Func<Product, bool>> filter)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Product> GetAll()
         {
             return _products; //we should give from database to business
+        }
+
+        public List<Product> GetAll(Expression<Func<Product, bool>> filter = null)
+        {
+            throw new NotImplementedException();
         }
 
         public List<Product> GetAllByCategory(int categoryId)
@@ -78,7 +89,7 @@ namespace DataAccess.Concrete.InMemory
             productToUpdate.ProductName=product.ProductName;
             productToUpdate.CategoryId = product.CategoryId; //we updated all parameters with LİNQ
             productToUpdate.UnitPrice = product.UnitPrice;
-            productToUpdate.UnitInStock = product.UnitInStock;
+            productToUpdate.UnitsInStock = product.UnitsInStock;
 
 
            

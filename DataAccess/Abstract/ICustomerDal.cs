@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Abstract
 {
-    public interface IProductDal:IEntityRepository<Product>
-        //we are creating methods, add delete update like that...!
+    public interface ICustomerDal:IEntityRepository<Customer>
     {
 
     }
