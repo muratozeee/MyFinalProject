@@ -1,5 +1,6 @@
 ﻿using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,11 +21,11 @@ namespace DataAccess.Concrete.InMemory
             //we can add many products in this list..!
             //we can imagine that  this information is coming from Oracle,Sql Server,Postgres,MongoDb or etc...!
             _products = new List<Product> { 
-                new Product {ProductId=1,CategoryId=1,ProductName="Glass",UnitPrice=15,UnitsInStock=15},//101 address in heap
-                new Product {ProductId=2,CategoryId=1,ProductName="Camera",UnitPrice=500,UnitsInStock=3},//102
-                new Product {ProductId=3,CategoryId=2,ProductName="Phone",UnitPrice=1500,UnitsInStock=2},//103
-                new Product {ProductId=4,CategoryId=2,ProductName="Keyboard",UnitPrice=150,UnitsInStock=65 },
-                new Product {ProductId=5,CategoryId=2,ProductName="Mouse",UnitPrice=85,UnitsInStock=1},
+                new Product {ProductID=1,CategoryID=1,ProductName="Glass",UnitPrice=15,UnitsInStock=15},//101 address in heap
+                new Product {ProductID=2,CategoryID=1,ProductName="Camera",UnitPrice=500,UnitsInStock=3},//102
+                new Product {ProductID=3,CategoryID=2,ProductName="Phone",UnitPrice=1500,UnitsInStock=2},//103
+                new Product {ProductID=4,CategoryID=2,ProductName="Keyboard",UnitPrice=150,UnitsInStock=65 },
+                new Product {ProductID=5,CategoryID=2,ProductName="Mouse",UnitPrice=85,UnitsInStock=1},
                 //we can inside Ctr+Space then we can reach the properties...!
 
 
@@ -43,9 +44,9 @@ namespace DataAccess.Concrete.InMemory
             //because heap is different that's why it can not work
             //then we can controll the CategoryID and match the same id and we can remove it... in this case we can use linq methods...!
             //LİNQ=Language İntegrated Queary=We can filtered like Sql properties codes... it is very usefull in C#
-            Product productToDelete=_products.SingleOrDefault(p=>p.ProductId==product.ProductId); //it working like a foreach ... it is loop every each productId and cheking statement...!
+            Product productToDelete=_products.SingleOrDefault(p=>p.ProductID==product.ProductID); //it working like a foreach ... it is loop every each productId and cheking statement...!
            //p=_products it is alias...! then loop the productId and check the coming from (UI).ProductId if it is same then defined the productToDelete with reference number...
-           //SingleOrDefault= it is search just 1 item or default...
+           //SingleOrDefault= it is search just 1 item   or default...
             _products.Remove(productToDelete); //after we remove it... it means we deleted the Same product Id what we want it...!
 
 
@@ -71,11 +72,16 @@ namespace DataAccess.Concrete.InMemory
         {
             //I should write the select...and ı can write very easy with LİNQ
 
-          return  _products.Where(p=>p.CategoryId==categoryId).ToList(); 
+          return  _products.Where(p=>p.CategoryID==categoryId).ToList(); 
             //where=if statement is correct in the list then they can list them and (where) can loop them...
 
 
 
+        }
+
+        public List<ProductDetailDto> GetProductDetail()
+        {
+            throw new NotImplementedException();
         }
 
         public void Update(Product product)
@@ -84,10 +90,10 @@ namespace DataAccess.Concrete.InMemory
         {
             //when ı send the product id,ProductToUpdate  can find the same productid in the list... then we can update them...
 
-            Product productToUpdate= _products.SingleOrDefault(p => p.ProductId == product.ProductId);
+            Product productToUpdate= _products.SingleOrDefault(p => p.ProductID == product.ProductID);
 
             productToUpdate.ProductName=product.ProductName;
-            productToUpdate.CategoryId = product.CategoryId; //we updated all parameters with LİNQ
+            productToUpdate.CategoryID = product.CategoryID; //we updated all parameters with LİNQ
             productToUpdate.UnitPrice = product.UnitPrice;
             productToUpdate.UnitsInStock = product.UnitsInStock;
 

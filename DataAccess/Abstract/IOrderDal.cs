@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Abstract
 {
-    public interface ICategoryDal:IEntityRepository<Category> //you configured IEntityRepositroy with Category then we are taking directliy methods...!
+    internal interface IOrderDal:IEntityRepository<Order>
     {
 
     }

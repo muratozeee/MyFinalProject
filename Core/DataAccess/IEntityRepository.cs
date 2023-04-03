@@ -1,5 +1,5 @@
-﻿using Entities.Abstract;
-using Entities.Concrete;
+﻿
+using Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccess.Abstract
+namespace Core.DataAccess
 {
     // if we want to filter then we have to use (generic constraint)...!
     //generic constraint..!
@@ -17,8 +17,8 @@ namespace DataAccess.Abstract
     public interface IEntityRepository<T>where T:class,IEntity,new()//We used the (generic Repository design pattern)...!
         //T= it can be reference type or reference types include of entities...!
     {
-     
-        List<T> GetAll(Expression<Func<T,bool>> filter=null);//Delegate...! //we are taking all informations as a List...! //if want ,we dont have to filter...!
+
+        List<T> GetAll(Expression<Func<T, bool>>? filter = null);//Delegate...! //we are taking all informations as a List...! //if want ,we dont have to filter...!
         //when we want to taking information with filter...!
         //for example return _productDal.GetAll(p=>p.categoryId==2) like that we can use this expression syntax...!
 
