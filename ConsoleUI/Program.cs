@@ -12,6 +12,8 @@ namespace ConsoleUI
             //CategoryTest();
 
             //DTO=Data Transformation Object
+
+
         }
 
         private static void CategoryTest()
@@ -28,11 +30,20 @@ namespace ConsoleUI
             ProductManager productManager = new ProductManager(new EfProductDal());
             //we used before when we use constructer name we can see the in product manager class..!
 
-
-            foreach (var product in productManager.GetProductDetail()) //let's see all products in the display..!
+            var result = productManager.GetProductDetail();
+            if (result.Succes==true)
             {
-                Console.WriteLine(product.ProductName + "/" + product.CategoryName);
+                foreach (var product in result.Data)
+                {
+                    Console.WriteLine(product.ProductName + "/" + product.CategoryName);
+                }
             }
+            else
+            {
+                Console.WriteLine(result.Message);
+            }
+
+
         }
     }
 }
