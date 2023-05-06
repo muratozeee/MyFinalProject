@@ -1,37 +1,44 @@
 ﻿using Azure.Core;
 using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
+using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
 using Entities.DTOs;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ValidationException = FluentValidation.ValidationException;
 
 namespace Business.Concrete
 {
     public class ProductManager : IProductService
-    {
-        IProductDal _productDal; //construction injection...! //we didnt use Entities framwork just we are using with constructers...!
 
+    {
+        //validation=it is givin validate... it is giving the message to us to doing something.email or something...
+        //construction injection...! //we didnt use Entities framwork just we are using with constructers...!
+        IProductDal _productDal;
 
         public ProductManager(IProductDal productDal)
         {
             _productDal = productDal;
         }
 
+        [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
-            if (product.ProductName.Length < 2)
-            {
-                //Magic Strings
-                return new ErrorResult(Messages.ProductNameInvalid);
-            }
+
+            //business codes...
+
             _productDal.Add(product);
 
             return new SuccessResult(Messages.ProductAdded);
@@ -42,7 +49,7 @@ namespace Business.Concrete
         {
             //Business Codes like if statements..!
             //do you have the authority ?
-                if (DateTime.Now.Hour == 23)
+                if (DateTime.Now.Hour == 1)
             {
                 return new ErorrDataResult<List<Product>>(Messages.MaintainanceTime);
             }

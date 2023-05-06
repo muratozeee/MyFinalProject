@@ -9,6 +9,10 @@ namespace WepAPI.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
+
+        //naming convention 
+        //Loose coupled
+
         IProductService _productService;
 
         public ProductsController(IProductService productService)
@@ -29,7 +33,7 @@ namespace WepAPI.Controllers
             
         }
         [HttpPost("add")]
-        public IActionResult Post(Product product)
+        public IActionResult Add(Product product)
         {
             var result = _productService.Add(product);
             if (result.Succes)
@@ -40,7 +44,7 @@ namespace WepAPI.Controllers
         }
 
         [HttpGet("getbyid")]
-        public IActionResult Get(int id)
+        public IActionResult GetById(int id)
         {
             var result = _productService.GetById(id);
             if (result.Succes)

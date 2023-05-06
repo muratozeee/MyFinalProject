@@ -8,9 +8,15 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            ProductTest();
+            //ProductTest();
             //CategoryTest();
-
+            //ProductManager productManager = new ProductManager(new EfProductDal());
+            
+            //foreach (var item in productManager.GetAll().Data)
+            //{
+            //    Console.WriteLine(item.ProductName);
+            //}
+            //Console.WriteLine("çalıştı");
             //DTO=Data Transformation Object
 
 

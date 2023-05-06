@@ -1,6 +1,9 @@
 
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Business.Abstract;
 using Business.Concrete;
+using Business.DependencyResolvers.Autofac;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFrameWork;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +15,9 @@ namespace WepAPI
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            
+
+
 
             // Add services to the container.
 
@@ -21,15 +27,27 @@ namespace WepAPI
             //Also when we see the ICategoryService we can get the CategoryManager  coming with ICategoryService
             //we are used them if they dont have the data
             //data with transiet and scope
+
+            
+
             builder.Services.AddSingleton<ICategoryService,CategoryManager>();
             builder.Services.AddSingleton<ICategoryDal, EfCategoryDal>();
 
-            builder.Services.AddSingleton<IProductService, ProductManager>();
-            builder.Services.AddSingleton<IProductDal, EfProductDal>();
+            //builder.Services.AddSingleton<IProductService, ProductManager>();
+            //builder.Services.AddSingleton<IProductDal, EfProductDal>();
 
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            
+            //Autofac using
+            builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+
+            builder.Host.ConfigureContainer<ContainerBuilder>(options =>
+            {
+                options.RegisterModule(new AutofacBusinessModule());
+            });
+            //...
 
             var app = builder.Build();
 
