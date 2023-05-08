@@ -22,18 +22,11 @@ namespace ConsoleUI
 
         }
 
-        private static void CategoryTest()
-        {
-            CategoryManager categoryManager = new CategoryManager(new EfCategoryDal());
-            foreach (var categories in categoryManager.Getall())
-            {
-                Console.WriteLine(categories.CategoryName);
-            }
-        }
+        
 
         private static void ProductTest()
         {
-            ProductManager productManager = new ProductManager(new EfProductDal());
+            ProductManager productManager = new ProductManager(new EfProductDal(),new CategoryManager(new EfCategoryDal()));
             //we used before when we use constructer name we can see the in product manager class..!
 
             var result = productManager.GetProductDetail();

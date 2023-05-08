@@ -19,14 +19,6 @@ namespace WepAPI.Controllers
             _categoryService = categoryService;
         }
 
-        [HttpGet]
-        public List<Category> Get()
-        {
 
-
-            var result = _categoryService.Getall();
-
-            return result.ToList();
-        }
     }
 }
