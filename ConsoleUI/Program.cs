@@ -26,21 +26,21 @@ namespace ConsoleUI
 
         private static void ProductTest()
         {
-            ProductManager productManager = new ProductManager(new EfProductDal(),new CategoryManager(new EfCategoryDal()));
-            //we used before when we use constructer name we can see the in product manager class..!
+            //ProductManager productManager = new ProductManager(new EfProductDal(),new CategoryManager(new EfCategoryDal()));
+            ////we used before when we use constructer name we can see the in product manager class..!
 
-            var result = productManager.GetProductDetail();
-            if (result.Succes==true)
-            {
-                foreach (var product in result.Data)
-                {
-                    Console.WriteLine(product.ProductName + "/" + product.CategoryName);
-                }
-            }
-            else
-            {
-                Console.WriteLine(result.Message);
-            }
+            //var result = productManager.GetProductDetail();
+            //if (result.Succes==true)
+            //{
+            //    foreach (var product in result.Data)
+            //    {
+            //        Console.WriteLine(product.ProductName + "/" + product.CategoryName);
+            //    }
+            //}
+            //else
+            //{
+            //    Console.WriteLine(result.Message);
+            //}
 
 
         }

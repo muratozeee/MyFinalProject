@@ -1,71 +1,77 @@
-
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using Business.Abstract;
-using Business.Concrete;
 using Business.DependencyResolvers.Autofac;
-using DataAccess.Abstract;
-using DataAccess.Concrete.EntityFrameWork;
-using Microsoft.EntityFrameworkCore;
+using Core.DependencyResolvers;
+using Core.Utilities.IoC;
+using Core.Extensions;
+using Core.Utilities.Security.Encryption;
+using Core.Utilities.Security.Jwt;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
-namespace WepAPI
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddControllers();
+
+
+//Autofac's Configurations
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+builder.Host.ConfigureContainer<ContainerBuilder>(builder =>
 {
-    public class Program
+    builder.RegisterModule(new AutofacBusinessModule());
+});
+//End.
+
+//CORS DI
+builder.Services.AddCors();
+
+//JWT's Configurations
+var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
     {
-        public static void Main(string[] args)
+        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
         {
-            var builder = WebApplication.CreateBuilder(args);
-            
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidIssuer = tokenOptions.Issuer,
+            ValidAudience = tokenOptions.Audience,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
+        };
+    });
+//End.
+
+//Dependency Injection
+builder.Services.AddDependencyResolvers(new ICoreModule[]
+        {
+            new CoreModule()
+        });
 
 
-
-            // Add services to the container.
-
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            //IoC container()
-            //Also when we see the ICategoryService we can get the CategoryManager  coming with ICategoryService
-            //we are used them if they dont have the data
-            //data with transiet and scope
-
-            
-
-            builder.Services.AddSingleton<ICategoryService,CategoryManager>();
-            builder.Services.AddSingleton<ICategoryDal, EfCategoryDal>();
-
-            //builder.Services.AddSingleton<IProductService, ProductManager>();
-            //builder.Services.AddSingleton<IProductDal, EfProductDal>();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-            
-            //Autofac using
-            builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
-
-            builder.Host.ConfigureContainer<ContainerBuilder>(options =>
-            {
-                options.RegisterModule(new AutofacBusinessModule());
-            });
-            //...
-
-            var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
-
-            app.UseHttpsRedirection();
-
-            app.UseAuthorization();
-
-
-            app.MapControllers();
-
-            app.Run();
-        }
-    }
+var app = builder.Build();
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
+
+
+
+//CORS Request!
+app.UseCors(builder => builder.WithOrigins("http://localhost:4200").AllowAnyHeader());
+
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.UseStaticFiles();
+
+app.Run();

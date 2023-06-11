@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace Core.Utilities.Results
 {
-    public class ErorrDataResult<T> : DataResult<T>
+    public class ErrorDataResult<T> : DataResult<T>
     {
-        public ErorrDataResult(T data, string message) : base(data, false, message)
+        public ErrorDataResult(T data, string message) : base(data, false, message)
         {
 
         }
-        public ErorrDataResult(T data) : base(data, false)
+        public ErrorDataResult(T data) : base(data, false)
         {
 
         }
-        public ErorrDataResult(string message) : base(default, false, message)
+        public ErrorDataResult(string message) : base(default, false, message)
         {
 
         }
-        public ErorrDataResult() : base(default, false)
+        public ErrorDataResult() : base(default, false)
         {
 
         }
