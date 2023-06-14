@@ -25,6 +25,7 @@ namespace WepAPI.Controllers
         //[Authorize(Roles = "admin")]
         public  IActionResult GetAll() 
         {
+            Thread.Sleep(5000);
             var result = _productService.GetAll();
 
             if (result.Succes==true)
@@ -45,10 +46,10 @@ namespace WepAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getbyid")]
-        public IActionResult GetById(int id)
+        [HttpGet("getbycategory")]
+        public IActionResult GetByCategory(int categoryId)
         {
-            var result = _productService.GetById(id);
+            var result = _productService.GetAllByCategoryId(categoryId);
             if (result.Succes)
             {
                 return Ok(result);

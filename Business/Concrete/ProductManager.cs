@@ -39,7 +39,7 @@ namespace Business.Concrete
         public IResult Add(Product product)
         {
             //same name can not add...
-           IResult result = BusinessRules.Run(CheckIfProductCountOfCategoryCorrect(product.CategoryID),
+           IResult result = BusinessRules.Run(CheckIfProductCountOfCategoryCorrect(product.CategoryId),
                 CheckifProductNameExists(product.ProductName),CheckIfCategoryLimitExceded());
 
             if (result != null)
@@ -71,14 +71,14 @@ namespace Business.Concrete
 
         public IDataResult<List<Product>> GetAllByCategoryId(int id)
         {
-            return new SuccessDataResult<List<Product>>(_productDal.GetAll(p => p.CategoryID == id));
+            return new SuccessDataResult<List<Product>>(_productDal.GetAll(p => p.CategoryId == id));
         }
 
         [CacheAspect]
         [PerformanceAspect(5)]
         public IDataResult<Product> GetById(int productId)
         {
-            return new SuccessDataResult<Product>(_productDal.Get(p => p.ProductID == productId));
+            return new SuccessDataResult<Product>(_productDal.Get(p => p.ProductId == productId));
         }
 
         public IDataResult<List<Product>> GetByUnitPrice(decimal min, decimal max)
@@ -96,7 +96,7 @@ namespace Business.Concrete
         [CacheRemoveAspect("IProductService.Get")]
         public IResult Update(Product product)
         {
-            var result = _productDal.GetAll(p => p.CategoryID == product.CategoryID).Count();
+            var result = _productDal.GetAll(p => p.CategoryId == product.CategoryId).Count();
             if (result <= 10)
             {
                 _productDal.Update(product);
@@ -109,7 +109,7 @@ namespace Business.Concrete
 
         private IResult CheckIfProductCountOfCategoryCorrect(int categoryId)
         {
-            var result = _productDal.GetAll(p => p.CategoryID == categoryId).Count();
+            var result = _productDal.GetAll(p => p.CategoryId == categoryId).Count();
             if (result > 15)
             {
                 return new ErrorResult(Messages.ProductCountCategoryError);

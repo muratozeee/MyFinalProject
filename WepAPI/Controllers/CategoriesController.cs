@@ -18,7 +18,20 @@ namespace WepAPI.Controllers
         {
             _categoryService = categoryService;
         }
+        [HttpGet("getall")]
+        //[Authorize(Roles = "admin")]
+        public IActionResult GetAll()
+        {
+            Thread.Sleep(5000);
+            var result = _categoryService.GetAll();
 
+            if (result.Succes == true)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+
+        }
 
     }
 }
