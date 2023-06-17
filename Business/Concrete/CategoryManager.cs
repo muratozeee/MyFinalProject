@@ -28,7 +28,7 @@ namespace Business.Concrete
 
         IDataResult<Category> ICategoryService.GetById(int categoryId)
         {
-            return new SuccessDataResult<Category>(_categoryDal.Get(c => c.CategoryID == categoryId));
+            return new SuccessDataResult<Category>(_categoryDal.Get(c => c.CategoryId == categoryId));
         }
     }
 }

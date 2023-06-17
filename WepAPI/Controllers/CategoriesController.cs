@@ -22,7 +22,7 @@ namespace WepAPI.Controllers
         //[Authorize(Roles = "admin")]
         public IActionResult GetAll()
         {
-            Thread.Sleep(5000);
+            Thread.Sleep(100);
             var result = _categoryService.GetAll();
 
             if (result.Succes == true)
